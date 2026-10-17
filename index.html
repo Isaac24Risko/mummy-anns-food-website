@@ -1,0 +1,370 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MUMMY ANN'S FOOD AND CATERING PLACE</title>
+<style>
+:root {
+  --green: #176b42;
+  --gold: #e6b84a;
+  --cream: #fff8e8;
+  --ink: #202820;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+}
+header {
+  background: linear-gradient(120deg, #123f2b, #23824f);
+  color: white;
+  text-align: center;
+  padding: 30px 16px;
+}
+header h1 { margin: 0; font-size: clamp(1.5rem, 5vw, 2.5rem); }
+header p { margin: 8px 0 0; }
+.wrap { max-width: 1000px; margin: auto; padding: 18px; }
+.panel {
+  background: white;
+  border-radius: 16px;
+  padding: 18px;
+  margin: 16px 0;
+  box-shadow: 0 4px 18px #193b2012;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 12px;
+}
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  padding: 12px;
+}
+.item small { display: block; color: #667; margin-top: 4px; }
+.item input {
+  width: 68px;
+  padding: 10px;
+  border: 1px solid #ccd5ce;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+.field { display: grid; gap: 6px; margin: 10px 0; }
+.field input, .field textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #cbd5cd;
+  border-radius: 9px;
+  font: inherit;
+}
+button {
+  background: var(--green);
+  color: white;
+  border: 0;
+  border-radius: 10px;
+  padding: 13px 18px;
+  font: inherit;
+  font-weight: bold;
+  cursor: pointer;
+}
+button:disabled { opacity: .6; }
+.total { font-size: 1.4rem; font-weight: 800; color: var(--green); }
+.hint { color: #536258; font-size: .92rem; }
+footer { text-align: center; padding: 22px; color: #536258; }
+a { color: var(--green); }
+.notice {
+  padding: 12px;
+  border-radius: 10px;
+  background: #fff1c8;
+  margin-top: 12px;
+  display: none;
+  overflow-wrap: anywhere;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>MUMMY ANN'S FOOD AND CATERING PLACE</h1>
+  <p>Fresh meals, made with love. Place your order below.</p>
+</header>
+
+<main class="wrap">
+<form id="orderForm">
+
+<section class="panel">
+  <h2>1. Main Course</h2>
+  <p class="hint">Choose a quantity from 0 to 9.</p>
+  <div id="mains" class="grid"></div>
+</section>
+
+<section class="panel">
+  <h2>2. Proteins & Sides</h2>
+  <div id="proteins" class="grid"></div>
+</section>
+
+<section class="panel">
+  <h2>3. Drinks</h2>
+  <div id="drinks" class="grid"></div>
+</section>
+
+<section class="panel">
+  <h2>4. Bank Transfer Payment</h2>
+  <p>Transfer your order total to the account below. After placing your order, send your payment receipt privately to either WhatsApp number.</p>
+
+  <div class="item">
+    <span><b>Bank</b><small>Moniepoint</small></span>
+  </div>
+  <div class="item">
+    <span><b>Account Name</b><small>Mummy Ann Foods</small></span>
+  </div>
+  <div class="item">
+    <span><b>Account Number</b><small>5632652398</small></span>
+    <button type="button" id="copyAccount">Copy</button>
+  </div>
+
+  <p class="hint">Confirm the account name and amount in your banking app before transferring.</p>
+
+  <div class="grid" style="margin-top:12px">
+    <a class="item" style="text-decoration:none"
+       href="https://wa.me/2348147449565"
+       target="_blank" rel="noopener">
+      <span><b>Send Receipt on WhatsApp 1</b><small>Open chat and attach your receipt.</small></span>
+    </a>
+
+    <a class="item" style="text-decoration:none"
+       href="https://wa.me/2348039397638"
+       target="_blank" rel="noopener">
+      <span><b>Send Receipt on WhatsApp 2</b><small>Open chat and attach your receipt.</small></span>
+    </a>
+  </div>
+
+  <p class="hint">Please include your order reference when sending your receipt. Send receipts privately, not to a public group.</p>
+</section>
+
+<section class="panel">
+  <h2>5. Your Details</h2>
+
+  <div class="field">
+    <label for="customerName">Full Name *</label>
+    <input id="customerName" required maxlength="100" autocomplete="name">
+  </div>
+
+  <div class="field">
+    <label for="phone">Phone Number *</label>
+    <input id="phone" required maxlength="30" autocomplete="tel">
+  </div>
+
+  <div class="field">
+    <label for="address">Delivery Address / Pickup Details *</label>
+    <input id="address" required maxlength="300" autocomplete="street-address">
+  </div>
+
+  <div class="field">
+    <label for="notes">Extra Requests (Optional)</label>
+    <textarea id="notes" rows="3" maxlength="1000"
+      placeholder="Special instructions or preferred delivery time"></textarea>
+  </div>
+
+  <p>Total: <span class="total" id="total">₦0</span></p>
+  <button id="submitBtn" type="submit">Place Order</button>
+  <div id="notice" class="notice" role="status"></div>
+  <p class="hint">An admin will review and confirm your order. Delivery fees, if any, will be discussed separately.</p>
+</section>
+
+</form>
+</main>
+
+<footer>Thank you for choosing MUMMY ANN'S FOOD AND CATERING PLACE.</footer>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js';
+import {
+  getFirestore, collection, doc, setDoc, serverTimestamp
+} from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js';
+import { firebaseConfig } from './firebase-config.js';
+
+const menu = {
+  mains: [
+    ['Special Moi Moi', 1500],
+    ['Jollof Rice', 1500],
+    ['White Rice & Sauce', 1500],
+    ['Ewa Aganyin', 1500],
+    ['Bread', 500]
+  ],
+  proteins: [
+    ['Chicken', 2000],
+    ['Egg', 400],
+    ['Beef', 500],
+    ['Fried Fish', 1000],
+    ['Ponmo (2 pieces)', 500]
+  ],
+  drinks: [
+    ['Coke', 500],
+    ['Fanta', 500],
+    ['Malt', 800],
+    ['Bottle Water', 300]
+  ]
+};
+
+const naira = amount =>
+  '₦' + Number(amount).toLocaleString('en-NG');
+
+for (const [group, items] of Object.entries(menu)) {
+  const host = document.getElementById(group);
+
+  items.forEach(([name, price], index) => {
+    const row = document.createElement('label');
+    row.className = 'item';
+
+    const description = document.createElement('span');
+    description.append(document.createTextNode(name));
+
+    const priceLabel = document.createElement('small');
+    priceLabel.textContent = naira(price) + ' each';
+    description.append(priceLabel);
+
+    const quantity = document.createElement('input');
+    quantity.type = 'number';
+    quantity.min = '0';
+    quantity.max = '9';
+    quantity.step = '1';
+    quantity.value = '0';
+    quantity.setAttribute('aria-label', 'Quantity of ' + name);
+    quantity.dataset.name = name;
+    quantity.dataset.price = price;
+    quantity.dataset.group = group;
+
+    row.append(description, quantity);
+    host.append(row);
+  });
+}
+
+const inputs = [...document.querySelectorAll('input[data-price]')];
+
+function calculateTotal() {
+  return inputs.reduce((sum, input) => {
+    const quantity = Math.max(
+      0, Math.min(9, parseInt(input.value || '0', 10) || 0)
+    );
+    return sum + quantity * Number(input.dataset.price);
+  }, 0);
+}
+
+function updateTotal() {
+  document.getElementById('total').textContent = naira(calculateTotal());
+}
+
+inputs.forEach(input => {
+  input.addEventListener('input', () => {
+    let quantity = parseInt(input.value || '0', 10);
+    if (!Number.isFinite(quantity)) quantity = 0;
+    input.value = Math.max(0, Math.min(9, quantity));
+    updateTotal();
+  });
+});
+
+let db = null;
+
+try {
+  if (!firebaseConfig || !firebaseConfig.apiKey) {
+    throw new Error('Firebase configuration is missing.');
+  }
+  const app = initializeApp(firebaseConfig);
+  db = getFirestore(app);
+} catch (error) {
+  console.error('Firebase setup error:', error);
+}
+
+const notice = document.getElementById('notice');
+
+function showMessage(message) {
+  notice.textContent = message;
+  notice.style.display = 'block';
+}
+
+document.getElementById('copyAccount').addEventListener('click', async () => {
+  try {
+    await navigator.clipboard.writeText('5632652398');
+    showMessage('Account number copied.');
+  } catch (error) {
+    showMessage('Account number: 5632652398');
+  }
+});
+
+document.getElementById('orderForm').addEventListener('submit', async event => {
+  event.preventDefault();
+
+  const items = inputs.map(input => ({
+    name: input.dataset.name,
+    group: input.dataset.group,
+    price: Number(input.dataset.price),
+    quantity: Number(input.value)
+  })).filter(item => item.quantity > 0);
+
+  if (!items.length) {
+    showMessage('Please choose at least one food or drink.');
+    return;
+  }
+
+  if (!db) {
+    showMessage('Orders are not ready yet because Firebase needs to be configured correctly.');
+    return;
+  }
+
+  const button = document.getElementById('submitBtn');
+  button.disabled = true;
+  button.textContent = 'Submitting Order...';
+
+  try {
+    const orderRef = doc(collection(db, 'orders'));
+
+    const order = {
+      customerName: document.getElementById('customerName').value.trim(),
+      phone: document.getElementById('phone').value.trim(),
+      address: document.getElementById('address').value.trim(),
+      notes: document.getElementById('notes').value.trim(),
+      items,
+      total: calculateTotal(),
+      status: 'Pending',
+      assignedAdmin: 'Unassigned',
+      paymentStatus: 'Unverified',
+      paymentMethod: 'Bank transfer',
+      createdAt: serverTimestamp()
+    };
+
+    await setDoc(orderRef, order);
+
+    document.getElementById('orderForm').reset();
+    inputs.forEach(input => input.value = 0);
+    updateTotal();
+
+    showMessage(
+      'Order submitted successfully! Order reference: ' +
+      orderRef.id +
+      '. Please transfer payment and send your receipt to either WhatsApp number. Include your order reference.'
+    );
+  } catch (error) {
+    console.error(error);
+    showMessage(
+      'Order could not be submitted. Please check your internet connection or contact the business. ' +
+      (error.message || '')
+    );
+  } finally {
+    button.disabled = false;
+    button.textContent = 'Place Order';
+  }
+});
+
+updateTotal();
+</script>
+</body>
+</html>
